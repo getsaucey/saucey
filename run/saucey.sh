@@ -27,43 +27,32 @@ then
   echo -e "${green}$1 @$2 $3"
   echo -e "${nc}Go to ${yellow}reports/saucey_report_$2.html${nc}"
 
-# If selenium local
-elif [ "$1" = "test" ]
-then
-
-  echo -e "Yo, you try'na get saucey?"
-
 # If init
 elif [ "$1" = "init" ]
 then
   # init.sh : Use $FUNCNAME
   init(){
-    cat run/saucey.txt
-    cp -R vendor/saucey/drivers/ymls/behat.yml.master.dist ./behat.yml
-    #    git remote add sajjad https://github.com/sajjadhossain/saucey.git
-    #    git remote add saucey https://github.com/saucey-io/saucey.git
-    #    git remote add withpulp https://github.com/withpulp/saucey.git
-    #    git remote add adcade https://github.com/adcade/saucey.git
+    curl -sS https://getcomposer.org/installer | php
   }
-
   init
 
-  # If init
-elif [ "$1" = "init_help" ]
-  then
-    # init.sh : Use $FUNCNAME
-    init(){
-      cat run/saucey.txt
-      cp -r vendor/saucey/ymls/behat.yml.helpcenter.dist ./behat.yml
-      #    git remote add sajjad https://github.com/sajjadhossain/saucey.git
-      #    git remote add saucey https://github.com/saucey-io/saucey.git
-      #    git remote add withpulp https://github.com/withpulp/saucey.git
-      #    git remote add adcade https://github.com/adcade/saucey.git
-    }
+# If install/update
+elif [ "$1" = "install" ]
+then
+  # init.sh : Use $FUNCNAME
+  init(){
+    php composer.phar install && php composer.phar update
+  }
+  init
 
-    init
+# If test
+elif [ "$1" = "test" ]
+then
+
+  echo "Yo, you try'na get saucey?"
 
 else
   echo -e "${red}ERROR: ${red}Check your statement. You can only use drunk [cloud] or sober [local]${nc}"
   echo -e "${yellow}EXAMPLE: ./saucey drunk @check mac safari -or- ./saucey tipsy @check safari -or- ./saucey drunk @check ios tablet_landscape${nc}"
 fi
+
